@@ -198,7 +198,7 @@ ULONG libdrv::to_windows_flags(_In_ UINT32 transfer_flags, _In_ bool dir_in)
 	return TransferFlags;
 }
 
-UINT32 libdrv::to_linux_flags(_In_ ULONG TransferFlags, _In_ bool dir_in)
+UINT32 libdrv::to_linux_flags(_In_ ULONG TransferFlags, _In_ bool dir_in, _In_ bool is_control)
 {
 	UINT32 flags = 0;
 
@@ -206,7 +206,8 @@ UINT32 libdrv::to_linux_flags(_In_ ULONG TransferFlags, _In_ bool dir_in)
 		flags |= URB_ISO_ASAP;
 	}
 
-	if (dir_in && !(TransferFlags & USBD_SHORT_TRANSFER_OK)) {
+	// A short data stage is legal on a control pipe (USB 2.0 8.5.3), Windows accepts it.
+	if (dir_in && !is_control && !(TransferFlags & USBD_SHORT_TRANSFER_OK)) {
 		flags |= URB_SHORT_NOT_OK;
 	}
 

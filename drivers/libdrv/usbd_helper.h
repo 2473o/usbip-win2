@@ -36,7 +36,7 @@ ULONG to_windows_flags(_In_ UINT32 transfer_flags, _In_ bool dir_in);
 
 _IRQL_requires_same_
 _IRQL_requires_max_(DISPATCH_LEVEL)
-UINT32 to_linux_flags(_In_ ULONG TransferFlags, _In_ bool dir_in);
+UINT32 to_linux_flags(_In_ ULONG TransferFlags, _In_ bool dir_in, _In_ bool is_control);
 
 constexpr auto IsTransferDirectionIn(ULONG TransferFlags)
 {
